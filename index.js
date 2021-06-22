@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const fs = require('fs');
 const dM = require('./tsv2mat');
 const aE = require('./attribEval');
 const aC = require('./adsCount')
@@ -6,6 +7,9 @@ const aC = require('./adsCount')
 //parsing of tsv file to matrix
 const selectorsMatrix = dM.dataMatrix('selectorsListings.tsv');
 const urlsMatrix = dM.dataMatrix('TOP_Organic_urlsListings.tsv');
+
+//output File
+const outputFile = 'TopListingsResults.tsv';
 
 //  selection constants
 //  selectorType  2 -> desktop  5 -> mSite  8 -> newSite
@@ -24,8 +28,16 @@ const urlType = 3;
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
 
-  for (let i = 19; i < 28/*urlsMatrix.length*/; i++) {
-    /// urls iteration  /// 
+  //file headers
+  fs.appendFileSync(outputFile, 'id\turl\ttasks_duration\tnum_of_ads\t');
+  for (let i = 1; i < selectorsMatrix.length; i++) {
+    fs.appendFileSync(outputFile,`${selectorsMatrix[i][0]}\t`);
+  }
+  fs.appendFileSync(outputFile, '\n');
+
+  for (let i = 154; i < 170/*urlsMatrix.length*/; i++) {
+    /// urls iteration  ///
+    try {
     await page.goto(urlsMatrix[i][urlType], {
       waitUntil: 'networkidle2',
     });
@@ -33,6 +45,7 @@ const urlType = 3;
     console.log('/// ---------------------------------------- ///');
     console.log('id : ' + urlsMatrix[i][0]);
     console.log('url: ' + page.url());
+    fs.appendFileSync(outputFile, `${urlsMatrix[i][0]}\t${page.url()}\t`);
 
     /// metrics:  ///
     // duration of all browser tasksfor loading the website
@@ -42,6 +55,7 @@ const urlType = 3;
     prevTasksDuration = tasksDuration;
     //metrics -> data 
     console.log('Tasks Duration: ' + urlTasksDuration);
+    fs.appendFileSync(outputFile, `${urlTasksDuration}\t`);
 
     /// Number of Ads:  ///
     let numOfAds = 0;
@@ -50,6 +64,7 @@ const urlType = 3;
     }
     //numOfAds -> data
     console.log('num of ads: ' + numOfAds);
+    fs.appendFileSync(outputFile, `${numOfAds}\t`);
 
     for (let j = 1; j < selectorsMatrix.length; j++) {
       /// Content:  ///
@@ -61,9 +76,17 @@ const urlType = 3;
       let counter = 0;
       // evals the attribute content from matrix attribute or counters from ads
       if (selectorId == 'S') {
-        content = await aE.attribContent(page, selector, attribute);
+        try {
+          content = await aE.attribContent(page, selector, attribute);
+          content = content.trim();
+          console.log(selectorsMatrix[j][0] + ': ' + content.slice(0,100));
+        }
+        catch {
+          content = null;
+          console.log(selectorsMatrix[j][0] + ': ' + content);
+        }
         //attributes -> data
-        console.log(selectorsMatrix[j][0] + ': ' + content.slice(0, 100));
+        fs.appendFileSync(outputFile, `${content}\t`);
       }
       else if (selectorId == 'C') {
         try {
@@ -74,8 +97,18 @@ const urlType = 3;
         }
         //counters -> data
         console.log(selectorsMatrix[j][0] + ': ' + counter);
+        fs.appendFileSync(outputFile, `${counter}\t`);
       } 
     }
+    fs.appendFileSync(outputFile, '\n');
+    }
+    catch (err) {  
+      console.log(err);
+      fs.appendFileSync(outputFile, `${urlsMatrix[i][0]}\t${page.url()}\t`);
+      fs.appendFileSync(outputFile, 'loading error\n');
+      continue;
+    }
   }
+
   await browser.close();
 })();
