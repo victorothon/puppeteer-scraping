@@ -23,21 +23,26 @@ const urlType = 3;
   
   //  timer reset
   let prevTasksDuration = 0;
+  let dialogMsg = "";
   
   //launch of headless browser and page tab
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
+  //console message handling
+  page.on('dialog', async (dialog) => {
+    dialogMsg = dialog.message();
+    console.log(dialog.accept());
+  });
+
 
   //file headers
-  fs.appendFileSync(outputFile, 'id\turl\ttasks_duration\tnum_of_ads\t');
-  for (let i = 1; i < selectorsMatrix.length; i++) {
-    fs.appendFileSync(outputFile,`${selectorsMatrix[i][0]}\t`);
-  }
-  fs.appendFileSync(outputFile, '\n');
+  //fs.appendFileSync(outputFile, 'id\turl\tdialog_message\ttasks_duration\tnum_of_ads\t');
+  //for (let i = 1; i < selectorsMatrix.length; i++) {
+  //  fs.appendFileSync(outputFile,`${selectorsMatrix[i][0]}\t`);
+  //}
+  //fs.appendFileSync(outputFile, '\n');
 
-  for (let i = 154; i < 170/*urlsMatrix.length*/; i++) {
-    /// urls iteration  ///
-    try {
+  for (let i = 2941; i < urlsMatrix.length; i++) {
     await page.goto(urlsMatrix[i][urlType], {
       waitUntil: 'networkidle2',
     });
@@ -45,7 +50,7 @@ const urlType = 3;
     console.log('/// ---------------------------------------- ///');
     console.log('id : ' + urlsMatrix[i][0]);
     console.log('url: ' + page.url());
-    fs.appendFileSync(outputFile, `${urlsMatrix[i][0]}\t${page.url()}\t`);
+    fs.appendFileSync(outputFile, `${urlsMatrix[i][0]}\t${page.url()}\t${dialogMsg}\t`);
 
     /// metrics:  ///
     // duration of all browser tasksfor loading the website
@@ -101,13 +106,7 @@ const urlType = 3;
       } 
     }
     fs.appendFileSync(outputFile, '\n');
-    }
-    catch (err) {  
-      console.log(err);
-      fs.appendFileSync(outputFile, `${urlsMatrix[i][0]}\t${page.url()}\t`);
-      fs.appendFileSync(outputFile, 'loading error\n');
-      continue;
-    }
+    dialogMsg = "";
   }
 
   await browser.close();
