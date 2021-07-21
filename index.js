@@ -1,113 +1,77 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
-const dM = require('./tsv2mat');
-const aE = require('./attribEval');
-const aC = require('./adsCount')
+const config = require('./config.json');
+const dM = require('./modules/tsv2mat');
+const dT = require('./modules/diferentialTimer');
+const fG = require('./modules/fileGen');
+const iE = require('./modules/infoExtractor');
 
-//parsing of tsv file to matrix
-const selectorsMatrix = dM.dataMatrix('selectorsListings.tsv');
-const urlsMatrix = dM.dataMatrix('TOP_Organic_urlsListings.tsv');
+/** configuration:
+ * @param {File} selectorsListings.tsv | tsv format file for selector extraction
+ * @param {File}   
+ */
+const selectorsMatrix = dM.dataMatrix('./selectorsFiles/selectorsListings.tsv');
+const urlsMatrix = dM.dataMatrix('./urlFiles/crawlingUrls.tsv');
+let outputFile = new fG.fileGen('tests.csv');
+const userConfig = config["desktop"];
 
-//output File
-const outputFile = 'TopListingsResults.tsv';
-
-//  selection constants
-//  selectorType  2 -> desktop  5 -> mSite  8 -> newSite
-//  urlType       2 -> desktop  1 -> msite  3 -> newSite
-//  TOP Organic   2 -> desktop  3 -> msite  4 -> newSite
-const selectorType = 5;
-const urlType = 3;
-
+/**
+ * @async function | puppeteer execution methods
+ */
 (async () => {
-  /// main async function for scraping  ///
-  
-  //  timer reset
-  let prevTasksDuration = 0;
+  /**
+   * @param {number} taskduration | object responable for diferential time update
+   * refered to url tasks duration
+   * @param {string} dialogMsg | inicialization of variable and default value
+  */
+  let tasksDuration = new dT.difTimer();
   let dialogMsg = "";
   
-  //launch of headless browser and page tab
+  /** browser and headless page launch */
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
-  //console message handling
+
+  /** dialog box handling */
   page.on('dialog', async (dialog) => {
     dialogMsg = dialog.message();
     console.log(dialog.accept());
   });
 
+  /** creation of output file header */
+  outputFile.header(selectorsMatrix);
 
-  //file headers
-  //fs.appendFileSync(outputFile, 'id\turl\tdialog_message\ttasks_duration\tnum_of_ads\t');
-  //for (let i = 1; i < selectorsMatrix.length; i++) {
-  //  fs.appendFileSync(outputFile,`${selectorsMatrix[i][0]}\t`);
-  //}
-  //fs.appendFileSync(outputFile, '\n');
+  /**
+   * loop of list of urls to be scraped
+   */
+  for (let i = 0; i < urlsMatrix.length; i++) {
 
-  for (let i = 2941; i < urlsMatrix.length; i++) {
-    await page.goto(urlsMatrix[i][urlType], {
-      waitUntil: 'networkidle2',
+    /** load of url with handling flag and loop variables inicialization
+     * @param {networkidle0} | wait until no network conections are left
+     * @param {string} lineString | string representing url scraping results
+    */
+    await page.goto(urlsMatrix[i][userConfig.urlType], {
+      waitUntil: 'networkidle0',
     });
-    //url -> data
-    console.log('/// ---------------------------------------- ///');
-    console.log('id : ' + urlsMatrix[i][0]);
-    console.log('url: ' + page.url());
-    fs.appendFileSync(outputFile, `${urlsMatrix[i][0]}\t${page.url()}\t${dialogMsg}\t`);
 
-    /// metrics:  ///
-    // duration of all browser tasksfor loading the website
+    /** metrics: duration of time that takes the url to excetute all tasks */
     const metrics = await page.metrics();
-    let tasksDuration = metrics.TaskDuration;
-    let urlTasksDuration = tasksDuration - prevTasksDuration;
-    prevTasksDuration = tasksDuration;
-    //metrics -> data 
-    console.log('Tasks Duration: ' + urlTasksDuration);
-    fs.appendFileSync(outputFile, `${urlTasksDuration}\t`);
+    urlTasksDuration = tasksDuration.difTime(metrics.TaskDuration);
 
-    /// Number of Ads:  ///
+    /** counter of number of ads in first page */
     let numOfAds = 0;
     while(await page.$(`#rowIndex_${numOfAds}`) != null){
       numOfAds++;
     }
-    //numOfAds -> data
-    console.log('num of ads: ' + numOfAds);
-    fs.appendFileSync(outputFile, `${numOfAds}\t`);
 
-    for (let j = 1; j < selectorsMatrix.length; j++) {
-      /// Content:  ///
-      /// string of selected attribute in each selector ///
-      let selectorId = selectorsMatrix[j][0].charAt(0);
-      let selector = selectorsMatrix[j][selectorType];
-      let attribute = selectorsMatrix[j][selectorType + 1];
-      let content = [];
-      let counter = 0;
-      // evals the attribute content from matrix attribute or counters from ads
-      if (selectorId == 'S') {
-        try {
-          content = await aE.attribContent(page, selector, attribute);
-          content = content.trim();
-          console.log(selectorsMatrix[j][0] + ': ' + content.slice(0,100));
-        }
-        catch {
-          content = null;
-          console.log(selectorsMatrix[j][0] + ': ' + content);
-        }
-        //attributes -> data
-        fs.appendFileSync(outputFile, `${content}\t`);
-      }
-      else if (selectorId == 'C') {
-        try {
-        counter = await aC.numOfElements(page, selector);
-        }
-        catch {
-          counter = 0;
-        }
-        //counters -> data
-        console.log(selectorsMatrix[j][0] + ': ' + counter);
-        fs.appendFileSync(outputFile, `${counter}\t`);
-      } 
-    }
-    fs.appendFileSync(outputFile, '\n');
+    /** data extraction */
+    let lineArray = "";
+    lineArray = (`\"${urlsMatrix[i][0]}\",\"${page.url()}\",\"${dialogMsg}\",` +
+                 `\"${urlTasksDuration}\",\"${numOfAds}\",`);
+    /** selector data extraction into string */
+    lineArray += await iE.info(page,selectorsMatrix,userConfig);
+    outputFile.appendline(lineArray);
     dialogMsg = "";
   }
-
+  /** end: closing browser  */
   await browser.close();
 })();

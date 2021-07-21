@@ -1,0 +1,28 @@
+id_Selectror	Description	wwwSelector	wwwAttribute	wwwString	mSelector	mAttribute	mString
+S1	Title	head > title	.textContent	Venta y Arriendo de Apartamentos, Casas y otros Inmuebles en Colombia | Fincaraiz.com.co	head > title	.textContent	Venta y Arriendo de Apartamentos, Casas y otros Inmuebles en Colombia | Fincaraiz.com.co
+S2	Meta name= "description"	head > meta[name="description"]	.content	Clasificados de Finca Raíz en Colombia. Encuentra o publica tu inmueble Gratis, casas, apartamentos, proyectos de vivienda y demás. noticias inmobiliarias al día	head > meta[name="description"]	.content	Clasificados de Finca Raíz en Colombia. Encuentra o publica tu inmueble Gratis, casas, apartamentos, proyectos de vivienda y demás. noticias inmobiliarias al día
+S3	Meta name="language" 	head > meta[name="language"]	.content	es	head > meta[name="language"]	.content	es-CO
+S4	Meta name="robots"  	head > meta[name="robots"]	.content	index,follow	head > meta[name="robots"]	.content	index,follow
+S5	meta http-equiv="content-language" 	head > meta[http-equiv="content-language"]	.content	es-CO	head > meta[http-equiv="content-language"]	.content	es-co
+S6	<meta property="og:title" 	head >meta[property="og:title"]	.content	Fincaraiz.com.co - Inicio	head >meta[property="og:title"]	.content	Fincaraiz.com.co - Inicio
+S7	<meta property="og:description" 	head >meta[property="og:description"]	.content	Clasificados de Finca Raíz en Colombia. Busca tu inmueble.	head >meta[property="og:description"]	.content	Clasificados de Finca Raíz en Colombia. Busca tu inmueble.
+S8	<meta property="og:image" 	head >meta[property="og:image"]	.content	https://www.fincaraiz.com.co/App_Theme/images/landig_page/landing_apps/Logo_app.png	head >meta[property="og:image"]	.content	https://www.fincaraiz.com.co/App_Theme/images/landig_page/landing_apps/Logo_app.png
+S9	<meta property="og:type" 	head >meta[property="og:type"]	.content	website	head >meta[property="og:type"]	.content	website
+S10	<meta property="og:url"	head >meta[property="og:url"]	.content	https://www.fincaraiz.com.co/	head >meta[property="og:url"]	.content	https://m.fincaraiz.com.co
+S11	<meta property="og:locale"	head >meta[property="og:locale"]	.content	es_LA	head >meta[property="og:locale"]	.content	es_LA
+S12	searchResult	#aspnetForm > div.page-content	.className	page-content	#divGral > div.mdl-cell.mdl-cell--6-col-phone.mdl-cell--8-col-tablet.mdl-cell--8-col-desktop.mdl-cell--top > div.mdl-grid.mdl-grid--no-spacing	.className	mdl-grid mdl-grid--no-spacing
+S13	product	#rowIndex_0	.className	advert  Product_Code_DON Product_Code_DONM AD_OV	#rowIndex_0	.className	mdl-list__item mdl-list__item--three-line
+S14	h1	h1	.textContent	"string"	h1	.textContent	"string"
+S15	Logo	#HeaderV2 > div.header.header1 > div	.className	fincaraiz-branding	#ctl00_cHeader_btnHome	.title	Ir al inicio
+S16	Publica tu anuncio	#btnPriceAlert	.textContent	Publica GRATIS* en 1 paso	#ctl00_cHeader_btnPublicar	.textContent	Publicar Gratis
+S17	link-Registrate	#HeaderV2 > div.header > div > div > ul > li:nth-child(2) > a	.textContent	Regístrate	#lblMenuHeader	.textContent	Ingresa / Regístrate
+S18	link-ingreso a usuario	#HeaderV2 > div.header > div > div > ul > li:nth-child(3) > a	.textContent	Ingresa	#lblMenuHeader	.textContent	Ingresa / Regístrate
+S19	footer	#Div_Footer	.className	footer	#ctl00_cFooter_Div_Footer_Principal	.className	row footer-custom mt-3
+S20	breadcrumbs	#divBreadcrumbResults	.className	breadcrumb	.mdl-grid > .mdl-layout-spacer > a:nth-child(1)	.textContent	Inicio
+C1	Ad Photos	#divAdverts .media			#results .photo		
+C2	Ads Title	#divAdverts .title-grid			#results .gray-p[itemprop="name"]		
+C3	Ads Hearts	#divAdverts .divHeart			#results .divHeart		
+C4	Ads Prices	#divAdverts meta[itemprop="price"]			#results .mdl-list__item-text-body		
+C5	Ads Surface Areas	#divAdverts .surface			#results .area		
+C6	Featured Ads Photos	#divAdverts .logo_DON					
+C7	Feature Ads Surface Areas	#divAdverts .description					

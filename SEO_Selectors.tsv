@@ -1,4 +1,0 @@
-id_Selectror	Selector	Attribute
-S1	head > title	.textContent
-S2	head > meta[name="description"]	.content
-S3	h1	.textContent

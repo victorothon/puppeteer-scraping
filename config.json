@@ -1,0 +1,14 @@
+{
+    "desktop": {
+        "selectorType": 2,
+        "urlType": 2
+    },
+    "msite": {
+        "selectorType": 5,
+        "urlType": 3
+    },
+    "staging": {
+        "selectorType": 8,
+        "urlType": 4
+    }
+}
