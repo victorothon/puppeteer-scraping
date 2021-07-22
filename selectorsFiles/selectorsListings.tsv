@@ -1,4 +1,4 @@
-id_Selectror	Description	wwwSelector	wwwAttribute	wwwString	mSelector	mAttribute	mString
+id_Selector	Description	wwwSelector	wwwAttribute	wwwString	mSelector	mAttribute	mString
 S1	Title	head > title	.textContent	Venta y Arriendo de Apartamentos, Casas y otros Inmuebles en Colombia | Fincaraiz.com.co	head > title	.textContent	Venta y Arriendo de Apartamentos, Casas y otros Inmuebles en Colombia | Fincaraiz.com.co
 S2	Meta name= "description"	head > meta[name="description"]	.content	Clasificados de Finca Raíz en Colombia. Encuentra o publica tu inmueble Gratis, casas, apartamentos, proyectos de vivienda y demás. noticias inmobiliarias al día	head > meta[name="description"]	.content	Clasificados de Finca Raíz en Colombia. Encuentra o publica tu inmueble Gratis, casas, apartamentos, proyectos de vivienda y demás. noticias inmobiliarias al día
 S3	Meta name="language" 	head > meta[name="language"]	.content	es	head > meta[name="language"]	.content	es-CO

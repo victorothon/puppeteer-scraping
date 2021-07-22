@@ -1,12 +1,30 @@
 # puppeteer-scraping
- scraping para encontrar inconsistencias de contenido en las versiones desktop, móvil y nueva de finca raiz.
+ scraping for fetching information concerning body and meta content on Desktop, Movil and New site of Firca Raiz web. 
  
-# Descripción de uso
-- Se deben configurar la ruta de dos archivos en formato .tsv:
-    - Archivo de Urls a revisar (archivo ejemplo en: **/selectorsFiles**)
-    - archivo con selectores y atributos a evaluar (archivo ejemplo en: **/urlFiles**)
+# Description of usage
+- two files must be configured in .tsv format:
+    - Files containing selectors to scrap (example in: **/selectorsFiles**)
+    - Files of selectors (example in: **/urlFiles**)
 
-- En el archivo **config.json** se realiza la configuración de las columnas en las cuales se encuentran los datos a extraer, tanto de los selectores como de las urls a examinar.
+- In the **config.json** file, the configuration for de extraction columns for each file can be configured
 
-## Archivo *selectors.tsv*:
-- 
+## **selectors.tsv:**
+### - Column structure:
+    - Id:
+        - of the form **S1**:- *S* stands for selector and *1* the index of the selector
+        - of the form **C1**:- *C* stands for counter and *1* the index of the element to be counted
+
+    - Description:
+        -   small description of selectors content
+
+    - Selector:
+        - css selector string
+
+    - Attribute:
+        - Attribute of selector to be extracted from the following options
+            - *.content*
+            - *.textContent*
+            - *.className*
+            - *.title*
+
+## **urls.tsv:**
