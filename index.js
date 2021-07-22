@@ -11,8 +11,8 @@ const iE = require('./modules/infoExtractor');
  * @param {File}   
  */
 const selectorsMatrix = dM.dataMatrix('./selectorsFiles/selectorsListings.tsv');
-const urlsMatrix = dM.dataMatrix('./urlFiles/crawlingUrls.tsv');
-let outputFile = new fG.fileGen('tests.csv');
+const urlsMatrix = dM.dataMatrix('./urlFiles/topUrls.tsv');
+let outputFile = new fG.fileGen('./outputFiles/example.csv');
 const userConfig = config["desktop"];
 
 /**
