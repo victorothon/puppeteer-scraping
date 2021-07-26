@@ -4,7 +4,7 @@ scraping for fetching information concerning body and meta content on Desktop, M
 
 ## Installation
 Installation made for mac-os, usin homebrew package manager
-```
+
 - package manager *HomeBrew*:
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
