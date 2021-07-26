@@ -25,7 +25,7 @@ npm i puppeteer
     - Files containing selectors to scrap (example in: **/selectorsFiles**)
     - Files of selectors (example in: **/urlFiles**)
 
-- In the **config.json** file, the configuration for de extraction columns for each file can be configured
+- In the **config.json** file, the configuration for the extraction columns for each file can be configured
 
 ###  **selectors.tsv**
 ---
