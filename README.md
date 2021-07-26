@@ -2,6 +2,22 @@
 ---
 scraping for fetching information concerning body and meta content on Desktop, Movil and New site of Firca Raiz web.
 
+## Installation
+Installation made for mac-os, usin homebrew package manager
+```
+- package manager *HomeBrew*:
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+- package manager *npm*:
+```
+brew install node
+```
+- library *puppeteer*:
+```
+npm i puppeteer
+```
+
 ## usage
 
 - two files must be configured in .tsv format:
@@ -25,8 +41,6 @@ scraping for fetching information concerning body and meta content on Desktop, M
 	- *.textContent*
 	- *.className*
 	- *.title*
-
-  
 
 ### **urls.tsv**
 ---
