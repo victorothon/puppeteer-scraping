@@ -14,6 +14,7 @@ const selectorsMatrix = dM.dataMatrix('./selectorsFiles/selectorsListings.tsv');
 const urlsMatrix = dM.dataMatrix('./urlFiles/topUrls.tsv');
 let outputFile = new fG.fileGen('./outputFiles/example.csv');
 const userConfig = config["desktop"];
+const headerStr = '\"id\",\"url\",\"dialog_message\",\"tasks_duration\",\"num_of_ads\",';
 
 /**
  * @async function | puppeteer execution methods
@@ -38,7 +39,7 @@ const userConfig = config["desktop"];
   });
 
   /** creation of output file header */
-  outputFile.header(selectorsMatrix);
+  outputFile.header(selectorsMatrix, headerStr);
 
   /**
    * loop of list of urls to be scraped

@@ -17,8 +17,8 @@ exports.fileGen = class {
      * 
      * @param {string} headerStr arreglo de inicio de header
      */
-    header(matrix) {
-        this.headerStr = '\"id\",\"url\",\"dialog_message\",\"tasks_duration\",\"num_of_ads\",';
+    header(matrix, headerStr) {
+        this.headerStr = headerStr;
         fs.appendFileSync(this.filePath, this.headerStr );
         for (let i = 1; i < matrix.length; i++) {
             fs.appendFileSync(this.filePath,`\"${matrix[i][0]}\",`);
